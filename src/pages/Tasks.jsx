@@ -25,7 +25,9 @@ export default function Tasks() {
   const filteredTasks = useMemo(() => tasks.filter((task) => {
     const query = search.toLowerCase()
     const matchesSearch = task.title.toLowerCase().includes(query) || task.assignee.includes(search)
-    const matchesStatus = status === 'All status' || task.status === (status === 'In progress' ? 'In Progress' : status)
+    const matchesStatus =
+  status === 'All status' ||
+  (task.status || '').trim().toLowerCase() === status.trim().toLowerCase()
     const matchesPriority = priority === 'All priorities' || task.priority === priority
     return matchesSearch && matchesStatus && matchesPriority
   }), [tasks, search, status, priority])
