@@ -10,7 +10,13 @@ import NewTask from './pages/NewTask'
 import { api } from './api'
 
 export default function App() {
-  const [projects, setProjects] = useState([])
+  const [tasks, setTasks] = useState([])
+
+useEffect(() => {
+  api.getTasks()
+    .then(setTasks)
+    .catch(console.error)
+}, [])
   const [apiError, setApiError] = useState(false)
 
   useEffect(() => {
@@ -40,7 +46,7 @@ export default function App() {
           {navItems.map(({ to, label, icon: Icon, end }) => (
             <NavLink key={to} to={to} end={end} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
               <Icon size={18} /><span>{label}</span>
-              {label === 'Tasks' && <span className="nav-count">7</span>}
+              {label === 'Tasks' && <span>{tasks.length}</span>}
             </NavLink>
           ))}
         </nav>
